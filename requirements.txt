@@ -1,0 +1,8 @@
+Flask
+pandas
+numpy
+scikit-learn
+joblib
+spacy
+pdfminer.six
+python-docx

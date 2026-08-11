@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Parser</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🤖
+                </div>
+
+                <div>
+                    <h2>AI Resume Parser</h2>
+                    <span>NLP + Machine Learning</span>
+                </div>
+
+            </div>
+
+            <div class="nav-badge">
+                AI Powered
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-container">
+
+        {% if not result %}
+
+        <!-- ================= HERO ================= -->
+
+        <section class="hero">
+
+            <div class="hero-badge">
+                ✨ Intelligent Resume Analysis
+            </div>
+
+            <h1>
+                Turn Your Resume Into
+                <span>Structured Data</span>
+            </h1>
+
+            <p>
+                Upload your resume and let our AI-powered parser
+                automatically extract your personal information,
+                skills, education and experience.
+            </p>
+
+        </section>
+
+
+        <!-- ================= UPLOAD CARD ================= -->
+
+        <section class="upload-card">
+
+            <div class="upload-icon">
+                📄
+            </div>
+
+            <h2>Upload Your Resume</h2>
+
+            <p class="upload-description">
+                Drag & drop your resume here or browse your files
+            </p>
+
+
+            <form action="/parse"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  id="resumeForm">
+
+                <div class="drop-zone"
+                     id="dropZone">
+
+                    <input type="file"
+                           name="resume"
+                           id="resumeInput"
+                           accept=".pdf,.docx,.txt"
+                           hidden
+                           required>
+
+                    <label for="resumeInput"
+                           class="browse-button">
+
+                        Choose Resume
+
+                    </label>
+
+                    <p id="fileName">
+                        No file selected
+                    </p>
+
+                    <small>
+                        Supported formats: PDF, DOCX, TXT
+                    </small>
+
+                </div>
+
+
+                <button type="submit"
+                        class="analyze-button"
+                        id="analyzeButton">
+
+                    <span>✨</span>
+                    Analyze Resume
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ================= FEATURES ================= -->
+
+        <section class="features">
+
+            <div class="feature-card">
+
+                <div class="feature-icon purple">
+                    🧠
+                </div>
+
+                <h3>NLP Extraction</h3>
+
+                <p>
+                    Extracts important information using
+                    Natural Language Processing.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon blue">
+                    🤖
+                </div>
+
+                <h3>ML Classification</h3>
+
+                <p>
+                    Classifies resumes using the trained
+                    Machine Learning model.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon green">
+                    {}
+                </div>
+
+                <h3>Structured JSON</h3>
+
+                <p>
+                    Converts extracted information into
+                    structured JSON format.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= HOW IT WORKS ================= -->
+
+        <section class="how-section">
+
+            <div class="section-heading">
+
+                <span>HOW IT WORKS</span>
+
+                <h2>Simple. Fast. Intelligent.</h2>
+
+            </div>
+
+
+            <div class="steps">
+
+                <div class="step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <h3>Upload</h3>
+
+                    <p>
+                        Upload your PDF, DOCX or TXT resume.
+                    </p>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <h3>Analyze</h3>
+
+                    <p>
+                        NLP and ML algorithms analyze your resume.
+                    </p>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <h3>Get Results</h3>
+
+                    <p>
+                        View structured information and download JSON.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        {% else %}
+
+
+        <!-- ================= RESULTS ================= -->
+
+        <section class="results-header">
+
+            <div>
+
+                <div class="hero-badge">
+                    ✓ Analysis Complete
+                </div>
+
+                <h1>
+                    Resume <span>Analysis</span>
+                </h1>
+
+                <p>
+                    Your resume has been successfully processed.
+                </p>
+
+            </div>
+
+
+            <div class="category-badge">
+
+                <span>Predicted Category</span>
+
+                <strong>
+                    {{ result.category }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PERSONAL INFO ================= -->
+
+        <section class="result-grid">
+
+            <div class="result-card personal-card">
+
+                <div class="card-title">
+
+                    <div class="card-icon purple-bg">
+                        👤
+                    </div>
+
+                    <div>
+                        <h2>Personal Information</h2>
+                        <p>Contact details detected from resume</p>
+                    </div>
+
+                </div>
+
+
+                <div class="info-list">
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Full Name
+                        </span>
+
+                        <strong>
+                            {{ result.name or "Not detected" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Email Address
+                        </span>
+
+                        <strong>
+                            {{ result.email or "Not detected" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span class="info-label">
+                            Phone Number
+                        </span>
+
+                        <strong>
+                            {{ result.phone or "Not detected" }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SKILLS ================= -->
+
+            <div class="result-card">
+
+                <div class="card-title">
+
+                    <div class="card-icon blue-bg">
+                        🛠
+                    </div>
+
+                    <div>
+                        <h2>Skills</h2>
+                        <p>Technical skills detected</p>
+                    </div>
+
+                </div>
+
+
+                <div class="skills-container">
+
+                    {% if result.skills %}
+
+                        {% for skill in result.skills %}
+
+                            <span class="skill-tag">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <p class="empty">
+                            No skills detected.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= EXPERIENCE ================= -->
+
+        <section class="result-card full-card">
+
+            <div class="card-title">
+
+                <div class="card-icon orange-bg">
+                    💼
+                </div>
+
+                <div>
+                    <h2>Work Experience</h2>
+                    <p>Professional experience detected from resume</p>
+                </div>
+
+            </div>
+
+
+            {% if result.experience %}
+
+                <div class="experience-list">
+
+                    {% for exp in result.experience %}
+
+                        <div class="experience-item">
+
+                            <div class="experience-marker">
+                                💼
+                            </div>
+
+                            <div class="experience-content">
+
+                                <h3>
+                                    {{ exp.title }}
+                                </h3>
+
+                                <p class="company">
+                                    {{ exp.company or "Company not detected" }}
+                                </p>
+
+                                <span class="years">
+                                    ⏱
+                                    {{ exp.years or "Duration not detected" }}
+                                    {% if exp.years %}
+                                        {% if exp.years == 1 %}
+                                            year
+                                        {% else %}
+                                            years
+                                        {% endif %}
+                                    {% endif %}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+                    No experience information detected.
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- ================= EDUCATION ================= -->
+
+        <section class="result-card full-card">
+
+            <div class="card-title">
+
+                <div class="card-icon green-bg">
+                    🎓
+                </div>
+
+                <div>
+                    <h2>Education</h2>
+                    <p>Educational qualifications detected</p>
+                </div>
+
+            </div>
+
+
+            {% if result.education %}
+
+                <div class="education-list">
+
+                    {% for education in result.education %}
+
+                        <div class="education-item">
+
+                            <div class="education-icon">
+                                🎓
+                            </div>
+
+                            <span>
+                                {{ education }}
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+                    No education information detected.
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- ================= JSON ================= -->
+
+        <section class="json-card">
+
+            <div class="json-header">
+
+                <div>
+
+                    <div class="json-title">
+                        <span>{ }</span>
+                        Structured JSON
+                    </div>
+
+                    <p>
+                        Machine-readable output generated by the parser
+                    </p>
+
+                </div>
+
+                <a href="/download-json"
+                   class="download-button">
+
+                    ↓ Download JSON
+
+                </a>
+
+            </div>
+
+
+            <div class="json-window">
+
+                <div class="json-topbar">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                    <label>
+                        parsed_resume.json
+                    </label>
+
+                </div>
+
+                <pre>{{ result | tojson(indent=4) }}</pre>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PARSE ANOTHER ================= -->
+
+        <div class="again-container">
+
+            <a href="/"
+               class="again-button">
+
+                ← Analyze Another Resume
+
+            </a>
+
+        </div>
+
+
+        {% endif %}
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            AI Resume Parser • NLP + Machine Learning
+        </p>
+
+        <span>
+            Built with Python & Flask
+        </span>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const input = document.getElementById("resumeInput");
+        const fileName = document.getElementById("fileName");
+        const dropZone = document.getElementById("dropZone");
+
+        if (input) {
+
+            input.addEventListener("change", function () {
+
+                if (this.files.length > 0) {
+
+                    fileName.textContent =
+                        "✓ " + this.files[0].name;
+
+                    fileName.classList.add("selected");
+
+                }
+
+            });
+
+        }
+
+
+        if (dropZone) {
+
+            dropZone.addEventListener(
+                "dragover",
+                function (event) {
+
+                    event.preventDefault();
+
+                    dropZone.classList.add("dragging");
+
+                }
+            );
+
+
+            dropZone.addEventListener(
+                "dragleave",
+                function () {
+
+                    dropZone.classList.remove("dragging");
+
+                }
+            );
+
+
+            dropZone.addEventListener(
+                "drop",
+                function (event) {
+
+                    event.preventDefault();
+
+                    dropZone.classList.remove("dragging");
+
+                    const files = event.dataTransfer.files;
+
+                    if (files.length > 0) {
+
+                        input.files = files;
+
+                        fileName.textContent =
+                            "✓ " + files[0].name;
+
+                        fileName.classList.add("selected");
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        const form = document.getElementById("resumeForm");
+        const button = document.getElementById("analyzeButton");
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                function () {
+
+                    button.innerHTML =
+                        '<span class="spinner"></span> Analyzing Resume...';
+
+                    button.disabled = true;
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>
