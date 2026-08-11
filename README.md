@@ -2,7 +2,7 @@
 
 An AI-powered Resume Parser built using Python, NLP, Machine Learning, and Flask.
 
-🔗 **Live Demo:** [Try the AI Resume Parser]([YOUR_LIVE_LINK_HERE](http://127.0.0.1:5000/))
+🔗 **Live Demo:** http://127.0.0.1:5000/
 
 ---
 
@@ -66,6 +66,39 @@ The system extracts structured information such as:
 - Experience
 - Education
 - Resume Category
+- 
+## 📁 Project Structure
+AI_Resume_Parser/
+│
+├── app.py
+├── resume_parser.py
+├── resume_classifier.pkl
+├── tfidf_vectorizer.pkl
+├── model_info.pkl
+├── sample_output.json
+├── requirements.txt
+├── README.md
+│
+├── templates/
+│   ├── index.html
+│   └── result.html
+│
+├── static/
+│   └── style.css
+│
+└── uploads/
+
+## ⚙️ Run Locally
+
+git clone YOUR_GITHUB_REPOSITORY_URL
+cd AI_Resume_Parser
+
+python -m venv venv
+venv\Scripts\activate
+
+pip install -r requirements.txt
+
+python app.py
 
 ## 📋 Sample JSON Output
 
@@ -87,35 +120,3 @@ The system extracts structured information such as:
     ]
 }
 
-📁 Project Structure
-AI_Resume_Parser/
-│
-├── app.py
-├── resume_parser.py
-├── resume_classifier.pkl
-├── tfidf_vectorizer.pkl
-├── model_info.pkl
-├── sample_output.json
-├── requirements.txt
-├── README.md
-│
-├── templates/
-│   ├── index.html
-│   └── result.html
-│
-├── static/
-│   └── style.css
-│
-└── uploads/
-
-⚙️ Run Locally
-
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd AI_Resume_Parser
-
-python -m venv venv
-venv\Scripts\activate
-
-pip install -r requirements.txt
-
-python app.py
